@@ -1,19 +1,24 @@
 import React from 'react';
+
+// icon
 import { BsCheck } from 'react-icons/bs';
 
+// store
+import { useStore } from '../hooks/useStore';
+
 // types
-import type { ListItem } from '../app/app';
+import type { ListItem } from '../app/store/store';
 
 type Props = {
   item: ListItem;
-  onCheck: (_: string) => void;
 };
 
-export const Item: React.FC<Props> = ({ item, onCheck }) => {
+export const Item: React.FC<Props> = ({ item }) => {
+  const { dispatch } = useStore();
   const { label, done, id } = item;
 
   const handleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onCheck(id);
+    dispatch({ type: 'toggle/one', payload: { id } });
   };
 
   return (

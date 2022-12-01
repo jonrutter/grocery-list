@@ -1,35 +1,47 @@
 import React, { useState, useRef } from 'react';
 
+// store
+import { useStore } from '../hooks/useStore';
+
 // components
 import { Button } from './button';
 
-type Props = {
-  addItem: (_: string) => void;
-  toggleChecked: () => void;
-  clearList: () => void;
-};
-
-export const Controls: React.FC<Props> = ({
-  addItem,
-  toggleChecked,
-  clearList,
-}) => {
+/**
+ * Renders the main controls for the app
+ */
+export const Controls: React.FC = () => {
+  const { dispatch } = useStore();
   const inputRef = useRef<HTMLInputElement>(null);
   const [value, setValue] = useState<string>('');
 
+  /**
+   * Controls the input field
+   */
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value;
-    setValue(inputValue);
+    setValue(e.target.value);
   };
 
+  /**
+   * Handles form submissions to add new items
+   */
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (inputRef.current) {
-      addItem(inputRef.current.value);
+      dispatch({ type: 'add/one', payload: { label: inputRef.current.value } });
       setValue('');
       inputRef.current.focus();
     }
   };
+
+  /**
+   * Dispatches to toggle whether all items are checked
+   */
+  const toggleChecked = () => dispatch({ type: 'toggle/all' });
+
+  /**
+   * Dispatches to remove all checked items from the list
+   */
+  const clearList = () => dispatch({ type: 'delete/checked' });
 
   return (
     <>
