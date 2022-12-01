@@ -1,9 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
+
+// styles
+import './assets/styles/index.css';
+
+// service worker
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
-import { App } from './App';
+// app
+import { App } from './app/app';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
