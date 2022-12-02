@@ -7,6 +7,42 @@ import { useStore } from '../hooks/useStore';
 import { Button } from './button';
 
 /**
+ * Renders the 'Check all' button.
+ *
+ * Inner text changes depending on state.
+ */
+const CheckAllButton: React.FC = () => {
+  const { state, dispatch } = useStore();
+  const allAreDone = state.length > 0 && state.every((item) => item.done);
+
+  // Dispatches to toggle whether all items are checked
+  const toggleChecked = () => dispatch({ type: 'toggle/all' });
+
+  return (
+    <Button onClick={toggleChecked}>
+      {allAreDone ? 'Uncheck all' : 'Check all'}
+    </Button>
+  );
+};
+
+/**
+ * Renders the 'Clear' button
+ */
+const ClearButton: React.FC = () => {
+  const { state, dispatch } = useStore();
+  const anyAreDone = state.length > 0 && state.some((item) => item.done);
+
+  // Dispatches to remove all checked items from the list
+  const clearList = () => dispatch({ type: 'delete/checked' });
+
+  return (
+    <Button onClick={clearList} disabled={!anyAreDone}>
+      Clear
+    </Button>
+  );
+};
+
+/**
  * Renders the main controls for the app
  */
 export const Controls: React.FC = () => {
@@ -14,16 +50,12 @@ export const Controls: React.FC = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [value, setValue] = useState<string>('');
 
-  /**
-   * Controls the input field
-   */
+  // Controls the input field
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   };
 
-  /**
-   * Handles form submissions to add new items
-   */
+  // Handles form submissions to add new items
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (inputRef.current) {
@@ -32,16 +64,6 @@ export const Controls: React.FC = () => {
       inputRef.current.focus();
     }
   };
-
-  /**
-   * Dispatches to toggle whether all items are checked
-   */
-  const toggleChecked = () => dispatch({ type: 'toggle/all' });
-
-  /**
-   * Dispatches to remove all checked items from the list
-   */
-  const clearList = () => dispatch({ type: 'delete/checked' });
 
   return (
     <>
@@ -65,9 +87,9 @@ export const Controls: React.FC = () => {
           +
         </button>
       </form>
-      <div className="flex space-x-4">
-        <Button onClick={toggleChecked}>Check all</Button>
-        <Button onClick={clearList}>Clear</Button>
+      <div className="grid grid-cols-[7.5rem_9rem] gap-4">
+        <CheckAllButton />
+        <ClearButton />
       </div>
     </>
   );
