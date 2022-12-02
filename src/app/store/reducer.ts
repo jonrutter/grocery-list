@@ -36,7 +36,7 @@ export const reducer: Reducer<State, Action> = (state, action) => {
     }
     case 'toggle/all': {
       // checks all items, or else unchecks all items if all are already checked
-      if (state.every((item) => item.done === true)) {
+      if (state.every((item) => item.done)) {
         newState = state.map((item) => ({ ...item, done: false }));
       } else {
         newState = state.map((item) => ({ ...item, done: true }));
