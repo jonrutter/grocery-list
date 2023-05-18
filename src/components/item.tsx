@@ -23,7 +23,7 @@ export const Item: React.FC<Props> = ({ item }) => {
 
   return (
     <li className="py-1 border-b border-b-gray-200 mb-2 block w-full overflow-hidden">
-      <label className="relative user-select-none flex items-center w-full overflow-hidden cursor-pointer">
+      <label className="relative user-select-none inline-flex items-center overflow-hidden cursor-pointer">
         <span className="sr-only">Check off {label} from list</span>
         {/* custom checkbox */}
         <div className="block relative select-none w-4 h-4">
